@@ -1,0 +1,30 @@
+@use '../../styles/variables' as *;
+
+.text {
+  margin: 0;
+  color: $color-text-primary;
+}
+
+.variant-body {
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+}
+
+.variant-heading {
+  line-height: $line-height-tight;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.variant-caption {
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  color: $color-text-secondary;
+}
+
+.variant-label {
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+}
+

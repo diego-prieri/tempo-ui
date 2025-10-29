@@ -1,0 +1,97 @@
+@use '../../styles/variables' as *;
+
+.header {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: $spacing-md 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xl;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.navigation {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .navigation {
+    display: block;
+  }
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: $spacing-lg;
+}
+
+.navLink {
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  text-decoration: none;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  transition: all 0.2s ease-in-out;
+}
+
+.navLink:hover {
+  background-color: rgba($color-primary, 0.1);
+  color: $color-primary;
+}
+
+.navLink:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.searchWrapper {
+  flex: 1;
+  max-width: 400px;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .searchWrapper {
+    display: block;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+

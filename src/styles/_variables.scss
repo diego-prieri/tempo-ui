@@ -1,0 +1,69 @@
+/**
+ * SCSS Variables - Design Tokens
+ * 
+ * These variables can be customized via the Token Customizer
+ * and downloaded as a SCSS file.
+ */
+
+// Colors
+$color-primary: #2563eb !default;
+$color-secondary: #64748b !default;
+$color-accent: #f59e0b !default;
+
+// Text colors (AAA compliant)
+$color-text-primary: #1a1a1a !default; // Dark text for light backgrounds (AAA)
+$color-text-secondary: #4a5568 !default; // Secondary text (AAA)
+$color-text-inverse: #ffffff !default; // Light text for dark backgrounds (AAA)
+$color-text-on-primary: #ffffff !default; // Text on primary color (AAA)
+$color-text-on-secondary: #ffffff !default; // Text on secondary color (AAA)
+$color-text-on-accent: #1a1a1a !default; // Text on accent color (AAA)
+
+// Typography
+$font-family-primary: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
+
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+$spacing-4xl: 6rem;
+
+// Sizes
+$size-xs: 1.5rem;
+$size-sm: 2rem;
+$size-md: 2.5rem;
+$size-lg: 3rem;
+$size-xl: 3.5rem;
+
+// Border
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.375rem;
+$border-radius-lg: 0.5rem;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+

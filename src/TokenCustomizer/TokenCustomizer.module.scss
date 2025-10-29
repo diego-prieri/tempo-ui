@@ -1,0 +1,247 @@
+@use '../styles/variables' as *;
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.sidebar {
+  width: 350px;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  padding: 2rem;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: $color-text-primary;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: $color-text-primary;
+}
+
+.colorGroup {
+  margin-bottom: 1.5rem;
+}
+
+.colorLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-text-primary;
+  margin-bottom: 0.5rem;
+}
+
+.colorInputWrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.colorInput {
+  width: 60px;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  padding: 0;
+}
+
+.colorInput::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+}
+
+.colorInput::-webkit-color-swatch {
+  border: none;
+  border-radius: 0.25rem;
+}
+
+.colorTextInput {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.colorTextInput:focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
+}
+
+.contrastInfo {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f3f4f6;
+  border-radius: $border-radius-sm;
+  font-size: 0.75rem;
+}
+
+.contrastRatio {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.contrastLabel {
+  color: $color-text-secondary;
+}
+
+.contrastValue {
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.contrastPass {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.contrastFail {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.recommendedText {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+}
+
+.textColorPreview {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.textColorInputWrapper {
+  margin-bottom: 0.5rem;
+}
+
+.livePreview {
+  font-family: $font-family-primary;
+}
+
+.fontGroup {
+  margin-bottom: 1.5rem;
+}
+
+.fontLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-text-primary;
+  margin-bottom: 0.5rem;
+}
+
+.fontSelect {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-size: 0.875rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.fontSelect:focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.resetButton,
+.downloadButton {
+  width: 100%;
+}
+
+.preview {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #f9fafb;
+}
+
+.previewContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.previewSection {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: $border-radius-lg;
+  border: 1px solid #e5e7eb;
+}
+
+.previewSectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: $color-text-primary;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.typographyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.combinedExample {
+  max-width: 500px;
+}
+

@@ -1,0 +1,57 @@
+@use '../../styles/variables' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  transition: all 0.2s ease-in-out;
+}
+
+.interactive {
+  cursor: pointer;
+  text-align: left;
+}
+
+.interactive:hover {
+  border-color: $color-primary;
+  box-shadow: $shadow-lg;
+}
+
+.interactive:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+.interactive:active {
+  transform: translateY(1px);
+}
+
+.header {
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  margin: 0 0 $spacing-xs 0;
+  color: $color-text-primary;
+}
+
+.subtitle {
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.content {
+  flex: 1;
+  color: $color-text-primary;
+}
+
+.footer {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid #e5e7eb;
+}
+

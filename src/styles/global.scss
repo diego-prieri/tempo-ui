@@ -1,0 +1,31 @@
+/**
+ * Global Styles
+ * 
+ * Base styles using SCSS variables from Design Tokens.
+ */
+
+@use './variables' as *;
+
+// CSS custom properties for runtime customization (from Token Customizer)
+:root {
+  --color-primary: #{$color-primary};
+  --color-secondary: #{$color-secondary};
+  --color-accent: #{$color-accent};
+  --font-family-primary: #{$font-family-primary};
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
