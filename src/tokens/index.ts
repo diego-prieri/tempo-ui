@@ -30,7 +30,11 @@ export const setTokens = (tokens: Partial<DesignTokens>): void => {
   currentTokens = {
     ...currentTokens,
     ...tokens,
-    colors: { ...currentTokens.colors, ...tokens.colors },
+    colors: { 
+      ...currentTokens.colors, 
+      ...tokens.colors,
+      text: tokens.colors?.text ? { ...currentTokens.colors.text, ...tokens.colors.text } : currentTokens.colors.text,
+    },
     typography: { ...currentTokens.typography, ...tokens.typography },
     spacing: { ...currentTokens.spacing, ...tokens.spacing },
     sizes: { ...currentTokens.sizes, ...tokens.sizes },

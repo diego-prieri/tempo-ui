@@ -3,7 +3,7 @@ import { setTokens, getTokens, defaultTokens, googleFonts, type GoogleFont } fro
 import { Button } from '../atoms/Button';
 import { Input } from '../atoms/Input';
 import { Text } from '../atoms/Text';
-import { evaluateContrast, ensureAAATextColor } from '../utils/colorContrast';
+import { evaluateContrast, ensureAAATextColor, suggestTextColorForBackground } from '../utils/colorContrast';
 import { downloadScssVariables } from '../utils/generateScssVariables';
 import styles from './TokenCustomizer.module.scss';
 
@@ -103,6 +103,15 @@ export const TokenCustomizer: React.FC = () => {
   const [secondaryColor, setSecondaryColor] = useState(tokens.colors.secondary);
   const [accentColor, setAccentColor] = useState(tokens.colors.accent);
   const [customTextColor, setCustomTextColor] = useState('#1a1a1a');
+  
+  // Text color variables
+  const [textPrimary, setTextPrimary] = useState(tokens.colors.text?.primary || '#1a1a1a');
+  const [textSecondary, setTextSecondary] = useState(tokens.colors.text?.secondary || '#4a5568');
+  const [textInverse, setTextInverse] = useState(tokens.colors.text?.inverse || '#ffffff');
+  const [textOnPrimary, setTextOnPrimary] = useState(tokens.colors.text?.onPrimary || '#ffffff');
+  const [textOnSecondary, setTextOnSecondary] = useState(tokens.colors.text?.onSecondary || '#ffffff');
+  const [textOnAccent, setTextOnAccent] = useState(tokens.colors.text?.onAccent || '#1a1a1a');
+  
   const [selectedFont, setSelectedFont] = useState<GoogleFont>(
     googleFonts.find(f => f.value.includes(tokens.typography.fontFamily.primary.split(',')[0])) || googleFonts[0]
   );
@@ -115,6 +124,14 @@ export const TokenCustomizer: React.FC = () => {
         primary: primaryColor,
         secondary: secondaryColor,
         accent: accentColor,
+        text: {
+          primary: textPrimary,
+          secondary: textSecondary,
+          inverse: textInverse,
+          onPrimary: textOnPrimary,
+          onSecondary: textOnSecondary,
+          onAccent: textOnAccent,
+        },
       },
       typography: {
         ...currentTokens.typography,
@@ -142,18 +159,38 @@ export const TokenCustomizer: React.FC = () => {
         document.head.appendChild(link);
       }
     }
-  }, [primaryColor, secondaryColor, accentColor, selectedFont]);
+  }, [primaryColor, secondaryColor, accentColor, selectedFont, textPrimary, textSecondary, textInverse, textOnPrimary, textOnSecondary, textOnAccent]);
 
   // Calculate contrast ratios for preview
   const primaryContrast = useMemo(() => evaluateContrast(customTextColor, primaryColor), [customTextColor, primaryColor]);
   const secondaryContrast = useMemo(() => evaluateContrast(customTextColor, secondaryColor), [customTextColor, secondaryColor]);
   const accentContrast = useMemo(() => evaluateContrast(customTextColor, accentColor), [customTextColor, accentColor]);
 
+  // Calculate suggestions for text colors
+  const suggestedTextOnPrimary = useMemo(() => 
+    suggestTextColorForBackground(primaryColor, { primary: textPrimary, secondary: textSecondary, inverse: textInverse }),
+    [primaryColor, textPrimary, textSecondary, textInverse]
+  );
+  const suggestedTextOnSecondary = useMemo(() => 
+    suggestTextColorForBackground(secondaryColor, { primary: textPrimary, secondary: textSecondary, inverse: textInverse }),
+    [secondaryColor, textPrimary, textSecondary, textInverse]
+  );
+  const suggestedTextOnAccent = useMemo(() => 
+    suggestTextColorForBackground(accentColor, { primary: textPrimary, secondary: textSecondary, inverse: textInverse }),
+    [accentColor, textPrimary, textSecondary, textInverse]
+  );
+
   const handleReset = () => {
     setPrimaryColor(defaultTokens.colors.primary);
     setSecondaryColor(defaultTokens.colors.secondary);
     setAccentColor(defaultTokens.colors.accent);
     setCustomTextColor('#1a1a1a');
+    setTextPrimary(defaultTokens.colors.text.primary);
+    setTextSecondary(defaultTokens.colors.text.secondary);
+    setTextInverse(defaultTokens.colors.text.inverse);
+    setTextOnPrimary(defaultTokens.colors.text.onPrimary);
+    setTextOnSecondary(defaultTokens.colors.text.onSecondary);
+    setTextOnAccent(defaultTokens.colors.text.onAccent);
     setSelectedFont(googleFonts[0]);
   };
 
@@ -299,6 +336,211 @@ export const TokenCustomizer: React.FC = () => {
               textColor={customTextColor}
               showTextColorInput={false}
             />
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Text Colors</h2>
+          <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '1rem' }}>
+            Customize text color variables. Suggestions show which variable works best with each background color.
+          </p>
+
+          <div className={styles.colorGroup}>
+            <label htmlFor="text-primary" className={styles.colorLabel}>
+              Text Primary (for light backgrounds)
+            </label>
+            <div className={styles.colorInputWrapper}>
+              <input
+                id="text-primary"
+                type="color"
+                value={textPrimary}
+                onChange={(e) => setTextPrimary(e.target.value)}
+                className={styles.colorInput}
+                aria-label="Text primary color"
+              />
+              <input
+                type="text"
+                value={textPrimary}
+                onChange={(e) => {
+                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                    setTextPrimary(e.target.value);
+                  }
+                }}
+                className={styles.colorTextInput}
+                pattern="^#[0-9A-Fa-f]{6}$"
+                aria-label="Text primary hex value"
+              />
+            </div>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+              Dark text for light backgrounds (white, light gray, etc.)
+            </p>
+          </div>
+
+          <div className={styles.colorGroup}>
+            <label htmlFor="text-secondary" className={styles.colorLabel}>
+              Text Secondary
+            </label>
+            <div className={styles.colorInputWrapper}>
+              <input
+                id="text-secondary"
+                type="color"
+                value={textSecondary}
+                onChange={(e) => setTextSecondary(e.target.value)}
+                className={styles.colorInput}
+                aria-label="Text secondary color"
+              />
+              <input
+                type="text"
+                value={textSecondary}
+                onChange={(e) => {
+                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                    setTextSecondary(e.target.value);
+                  }
+                }}
+                className={styles.colorTextInput}
+                pattern="^#[0-9A-Fa-f]{6}$"
+                aria-label="Text secondary hex value"
+              />
+            </div>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+              Secondary text for less emphasis
+            </p>
+          </div>
+
+          <div className={styles.colorGroup}>
+            <label htmlFor="text-inverse" className={styles.colorLabel}>
+              Text Inverse (for dark backgrounds)
+            </label>
+            <div className={styles.colorInputWrapper}>
+              <input
+                id="text-inverse"
+                type="color"
+                value={textInverse}
+                onChange={(e) => setTextInverse(e.target.value)}
+                className={styles.colorInput}
+                aria-label="Text inverse color"
+              />
+              <input
+                type="text"
+                value={textInverse}
+                onChange={(e) => {
+                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                    setTextInverse(e.target.value);
+                  }
+                }}
+                className={styles.colorTextInput}
+                pattern="^#[0-9A-Fa-f]{6}$"
+                aria-label="Text inverse hex value"
+              />
+            </div>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+              Light text for dark backgrounds
+            </p>
+          </div>
+
+          <div className={styles.colorGroup}>
+            <label htmlFor="text-on-primary" className={styles.colorLabel}>
+              Text On Primary
+            </label>
+            <div className={styles.colorInputWrapper}>
+              <input
+                id="text-on-primary"
+                type="color"
+                value={textOnPrimary}
+                onChange={(e) => setTextOnPrimary(e.target.value)}
+                className={styles.colorInput}
+                aria-label="Text on primary color"
+              />
+              <input
+                type="text"
+                value={textOnPrimary}
+                onChange={(e) => {
+                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                    setTextOnPrimary(e.target.value);
+                  }
+                }}
+                className={styles.colorTextInput}
+                pattern="^#[0-9A-Fa-f]{6}$"
+                aria-label="Text on primary hex value"
+              />
+            </div>
+            <div style={{ marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#f3f4f6', borderRadius: '0.25rem', fontSize: '0.75rem' }}>
+              <strong>Suggestion:</strong> Use <code>{suggestedTextOnPrimary.variable}</code> ({suggestedTextOnPrimary.color}) - {suggestedTextOnPrimary.reason}
+              <br />
+              <span style={{ color: suggestedTextOnPrimary.contrast.passesAAA ? '#10b981' : '#ef4444' }}>
+                Contrast: {suggestedTextOnPrimary.contrast.ratio}:1 {suggestedTextOnPrimary.contrast.passesAAA ? '✓ AAA' : suggestedTextOnPrimary.contrast.passesAA ? '✓ AA' : '✗ Fail'}
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.colorGroup}>
+            <label htmlFor="text-on-secondary" className={styles.colorLabel}>
+              Text On Secondary
+            </label>
+            <div className={styles.colorInputWrapper}>
+              <input
+                id="text-on-secondary"
+                type="color"
+                value={textOnSecondary}
+                onChange={(e) => setTextOnSecondary(e.target.value)}
+                className={styles.colorInput}
+                aria-label="Text on secondary color"
+              />
+              <input
+                type="text"
+                value={textOnSecondary}
+                onChange={(e) => {
+                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                    setTextOnSecondary(e.target.value);
+                  }
+                }}
+                className={styles.colorTextInput}
+                pattern="^#[0-9A-Fa-f]{6}$"
+                aria-label="Text on secondary hex value"
+              />
+            </div>
+            <div style={{ marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#f3f4f6', borderRadius: '0.25rem', fontSize: '0.75rem' }}>
+              <strong>Suggestion:</strong> Use <code>{suggestedTextOnSecondary.variable}</code> ({suggestedTextOnSecondary.color}) - {suggestedTextOnSecondary.reason}
+              <br />
+              <span style={{ color: suggestedTextOnSecondary.contrast.passesAAA ? '#10b981' : '#ef4444' }}>
+                Contrast: {suggestedTextOnSecondary.contrast.ratio}:1 {suggestedTextOnSecondary.contrast.passesAAA ? '✓ AAA' : suggestedTextOnSecondary.contrast.passesAA ? '✓ AA' : '✗ Fail'}
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.colorGroup}>
+            <label htmlFor="text-on-accent" className={styles.colorLabel}>
+              Text On Accent
+            </label>
+            <div className={styles.colorInputWrapper}>
+              <input
+                id="text-on-accent"
+                type="color"
+                value={textOnAccent}
+                onChange={(e) => setTextOnAccent(e.target.value)}
+                className={styles.colorInput}
+                aria-label="Text on accent color"
+              />
+              <input
+                type="text"
+                value={textOnAccent}
+                onChange={(e) => {
+                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                    setTextOnAccent(e.target.value);
+                  }
+                }}
+                className={styles.colorTextInput}
+                pattern="^#[0-9A-Fa-f]{6}$"
+                aria-label="Text on accent hex value"
+              />
+            </div>
+            <div style={{ marginTop: '0.5rem', padding: '0.5rem', fontSize: '0.75rem', backgroundColor: '#f3f4f6', borderRadius: '0.25rem' }}>
+              <strong>Suggestion:</strong> Use <code>{suggestedTextOnAccent.variable}</code> ({suggestedTextOnAccent.color}) - {suggestedTextOnAccent.reason}
+              <br />
+              <span style={{ color: suggestedTextOnAccent.contrast.passesAAA ? '#10b981' : '#ef4444' }}>
+                Contrast: {suggestedTextOnAccent.contrast.ratio}:1 {suggestedTextOnAccent.contrast.passesAAA ? '✓ AAA' : suggestedTextOnAccent.contrast.passesAA ? '✓ AA' : '✗ Fail'}
+              </span>
+            </div>
           </div>
         </div>
 

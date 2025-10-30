@@ -5,22 +5,15 @@
  */
 
 import { getTokens } from '../tokens';
-import { ensureAAATextColor } from './colorContrast';
 
 export const generateScssVariables = (): string => {
   const tokens = getTokens();
-
-  // Calculate AAA compliant text colors
-  const textOnPrimary = ensureAAATextColor(tokens.colors.primary);
-  const textOnSecondary = ensureAAATextColor(tokens.colors.secondary);
-  const textOnAccent = ensureAAATextColor(tokens.colors.accent);
-  const textOnWhite = ensureAAATextColor('#ffffff');
 
   const scss = `/**
  * Design Tokens - Generated Variables
  * 
  * This file was generated from the Token Customizer.
- * All text colors are AAA compliant for accessibility.
+ * All text colors should meet AAA accessibility standards.
  * 
  * Generated: ${new Date().toISOString()}
  */
@@ -30,13 +23,13 @@ $color-primary: ${tokens.colors.primary};
 $color-secondary: ${tokens.colors.secondary};
 $color-accent: ${tokens.colors.accent};
 
-// Text colors (AAA compliant)
-$color-text-primary: ${textOnWhite.color}; // Contrast: ${textOnWhite.contrast.ratio}:1
-$color-text-secondary: #4a5568; // Secondary text (AAA)
-$color-text-inverse: #ffffff; // Light text for dark backgrounds (AAA)
-$color-text-on-primary: ${textOnPrimary.color}; // Contrast: ${textOnPrimary.contrast.ratio}:1
-$color-text-on-secondary: ${textOnSecondary.color}; // Contrast: ${textOnSecondary.contrast.ratio}:1
-$color-text-on-accent: ${textOnAccent.color}; // Contrast: ${textOnAccent.contrast.ratio}:1
+// Text colors
+$color-text-primary: ${tokens.colors.text.primary}; // Dark text for light backgrounds
+$color-text-secondary: ${tokens.colors.text.secondary}; // Secondary text
+$color-text-inverse: ${tokens.colors.text.inverse}; // Light text for dark backgrounds
+$color-text-on-primary: ${tokens.colors.text.onPrimary}; // Text on primary color
+$color-text-on-secondary: ${tokens.colors.text.onSecondary}; // Text on secondary color
+$color-text-on-accent: ${tokens.colors.text.onAccent}; // Text on accent color
 
 // Typography
 $font-family-primary: ${tokens.typography.fontFamily.primary};

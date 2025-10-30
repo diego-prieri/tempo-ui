@@ -146,3 +146,77 @@ export const adjustColorForContrast = (
   }
 };
 
+/**
+ * Suggests which text color variable to use with a given background color
+ * Returns the recommended text color variable name and the suggested color value
+ */
+export const suggestTextColorForBackground = (
+  backgroundColor: string,
+  availableTextColors: { primary: string; secondary: string; inverse: string }
+): { variable: string; color: string; reason: string; contrast: ContrastRatio } => {
+  const contrastWithPrimary = evaluateContrast(availableTextColors.primary, backgroundColor);
+  const contrastWithSecondary = evaluateContrast(availableTextColors.secondary, backgroundColor);
+  const contrastWithInverse = evaluateContrast(availableTextColors.inverse, backgroundColor);
+
+  // Determine if background is light or dark
+  const rgb = hexToRgb(backgroundColor);
+  const luminance = getRelativeLuminance(rgb);
+  const isLightBackground = luminance > 0.5;
+
+  // For light backgrounds, prefer primary or secondary
+  if (isLightBackground) {
+    if (contrastWithPrimary.passesAAA) {
+      return {
+        variable: 'text-primary',
+        color: availableTextColors.primary,
+        reason: 'Light background - use primary text color for best contrast (AAA compliant)',
+        contrast: contrastWithPrimary,
+      };
+    } else if (contrastWithSecondary.passesAAA) {
+      return {
+        variable: 'text-secondary',
+        color: availableTextColors.secondary,
+        reason: 'Light background - use secondary text color (AAA compliant)',
+        contrast: contrastWithSecondary,
+      };
+    } else {
+      // If neither primary nor secondary works, check inverse
+      if (contrastWithInverse.passesAAA) {
+        return {
+          variable: 'text-inverse',
+          color: availableTextColors.inverse,
+          reason: 'Light background - inverse text provides AAA compliance',
+          contrast: contrastWithInverse,
+        };
+      }
+    }
+  } else {
+    // For dark backgrounds, prefer inverse
+    if (contrastWithInverse.passesAAA) {
+      return {
+        variable: 'text-inverse',
+        color: availableTextColors.inverse,
+        reason: 'Dark background - use inverse text color for best contrast (AAA compliant)',
+        contrast: contrastWithInverse,
+      };
+    }
+  }
+
+  // Fallback to best contrast available
+  const contrasts = [
+    { variable: 'text-primary', color: availableTextColors.primary, contrast: contrastWithPrimary },
+    { variable: 'text-secondary', color: availableTextColors.secondary, contrast: contrastWithSecondary },
+    { variable: 'text-inverse', color: availableTextColors.inverse, contrast: contrastWithInverse },
+  ];
+
+  const best = contrasts.reduce((best, current) => 
+    current.contrast.ratio > best.contrast.ratio ? current : best
+  );
+
+  return {
+    variable: best.variable,
+    color: best.color,
+    reason: `Best available contrast (${best.contrast.passesAAA ? 'AAA' : best.contrast.passesAA ? 'AA' : 'Below AA'})`,
+    contrast: best.contrast,
+  };
+};

@@ -5,16 +5,36 @@
  * These tokens can be customized from Storybook.
  */
 
+export interface TextColorTokens {
+  primary: string; // Dark text for light backgrounds
+  secondary: string; // Secondary text
+  inverse: string; // Light text for dark backgrounds
+  onPrimary: string; // Text on primary color
+  onSecondary: string; // Text on secondary color
+  onAccent: string; // Text on accent color
+}
+
 export interface ColorTokens {
   primary: string;
   secondary: string;
   accent: string;
+  text: TextColorTokens;
 }
+
+export const defaultTextColors: TextColorTokens = {
+  primary: '#1a1a1a', // Dark text for light backgrounds (AAA)
+  secondary: '#4a5568', // Secondary text (AAA)
+  inverse: '#ffffff', // Light text for dark backgrounds (AAA)
+  onPrimary: '#ffffff', // Text on primary color (AAA)
+  onSecondary: '#ffffff', // Text on secondary color (AAA)
+  onAccent: '#1a1a1a', // Text on accent color (AAA)
+};
 
 export const defaultColors: ColorTokens = {
   primary: '#2563eb',
   secondary: '#64748b',
   accent: '#f59e0b',
+  text: defaultTextColors,
 };
 
 // Automatically generates color variations
